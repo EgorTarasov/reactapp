@@ -1,0 +1,9 @@
+.mapItem:before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    border-bottom: 80px solid #10062b;
+    border-left: 80px solid #605de3;
+    width: 0;
+}
