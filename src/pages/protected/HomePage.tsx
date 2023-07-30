@@ -12,6 +12,7 @@ export default function HomePage() {
             },
         },
     });
+    // TODO: Добавить название мира и аватар для мира
     return (
         <ThemeProvider theme={HomePageTheme}>
             <CssBaseline />
@@ -28,18 +29,34 @@ export default function HomePage() {
                 <Grid container spacing={50}>
                     <Grid container item spacing={100}>
                         <Grid item xs={12} md={6}>
-                            <MapCard fill="#605DE3" opacity={0.4} />
+                            <MapCard
+                                name="Мир орфографии"
+                                fill="#605DE3"
+                                opacity={0.9}
+                            />
                         </Grid>
                         <Grid item xs={12} md={6}>
-                            <MapCard fill="#F96108" opacity={0.4} />
+                            <MapCard
+                                name="Мир орфографии"
+                                fill="#F96108"
+                                opacity={0.9}
+                            />
                         </Grid>
                     </Grid>
                     <Grid container item spacing={100}>
                         <Grid item xs={12} md={6}>
-                            <MapCard fill="#FAB02D" opacity={0.4} />
+                            <MapCard
+                                name="Мир орфографии"
+                                fill="#FAB02D"
+                                opacity={0.9}
+                            />
                         </Grid>
                         <Grid item xs={12} md={6}>
-                            <MapCard fill="#7CB518" opacity={0.4} />
+                            <MapCard
+                                name="Мир орфографии"
+                                fill="#7CB518"
+                                opacity={0.9}
+                            />
                         </Grid>
                     </Grid>
                 </Grid>

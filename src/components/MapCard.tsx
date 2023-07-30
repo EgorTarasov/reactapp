@@ -1,6 +1,7 @@
-import { Paper } from "@mui/material";
+import { Container, Paper, Typography, Stack, Avatar } from "@mui/material";
 
 interface MapCardProps {
+    name: string;
     fill: string;
     opacity: number;
     width?: number;
@@ -8,24 +9,8 @@ interface MapCardProps {
 }
 
 export default function MapCard(props: MapCardProps) {
-    const { fill, opacity } = props;
+    const { fill, opacity, name } = props;
 
-    // {
-    //     position: "relative",
-    //     padding: theme.spacing(2),
-    //     marginBottom: theme.spacing(2),
-    //     "&::before": {
-    //         content: '""',
-    //         position: "absolute",
-    //         top: 0,
-    //         left: 0,
-    //         width: 0,
-    //         height: 0,
-    //         borderStyle: "solid",
-    //         borderWidth: `${theme.spacing(2)}px ${theme.spacing(2)}px 0 0`,
-    //         borderColor: `${theme.palette.background.paper} transparent transparent transparent`,
-    //     },
-    // },
     return (
         <>
             <Paper
@@ -36,30 +21,53 @@ export default function MapCard(props: MapCardProps) {
                     width: props.width || 284,
                     height: props.height || 234,
                     position: "relative",
-                    // borderRadius: 2,
+                    opacity: opacity || 0.8,
+
                     borderTop: "2px solid #FFFFFF",
                     borderLeft: "2px solid #FFFFF",
-                    // borderRight: "80px solid #FFFFFF",
-                    // borderBottom: "60px solid #FFFFFF",
-                    // boxShadow: 3,
-                    // borderTop: "80px solid white",
-                    // borderLeft: `80px solid ${fill}`,
-                    // opacity: opacity,
                 }}
             >
-                {/* <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width={props.width || 284}
-                    height={props.height || 234}
-                    viewBox="0 0 284 234"
-                    // fill="none"
+                <Container
+                // sx={{
+                //     position: "absolute",
+                //     bottom: 0,
+                //     left: 0,
+                //     width: "100%",
+                //     height: "100%",
+                //     display: "flex",
+                //     alignItems: "center",
+                //     justifyContent: "center",
+                // }}
                 >
-                    <path
-                        d="M0 0.879912L284 0.879883V175.88L215 233.88H0V0.879912Z"
-                        fill={fill}
-                        fill-opacity={opacity}
-                    />
-                </svg> */}
+                    <Stack
+                        sx={{ mt: 2 }}
+                        justifyContent={"center"}
+                        alignContent={"center"}
+                    >
+                        <Typography
+                            variant="body1"
+                            align="center"
+                            sx={{
+                                borderRadius: "8px",
+                                border: "2px solid #FFFFFF",
+                                p: 2,
+                                color: "#FFFFFF",
+                                fontWeight: "bold",
+                                fontSize: "1.5rem",
+                            }}
+                        >
+                            {name}
+                        </Typography>
+                        <Avatar
+                            sx={{ m: "auto", height: 100, width: 100, mt: 3 }}
+                        >
+                            <img
+                                src="https://i.imgur.com/7bIhC0d.png"
+                                alt="avatar"
+                            />
+                        </Avatar>
+                    </Stack>
+                </Container>
             </Paper>
         </>
     );
