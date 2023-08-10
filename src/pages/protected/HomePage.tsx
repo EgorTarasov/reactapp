@@ -3,6 +3,7 @@ import MapCard from "../../components/MapCard";
 import { createTheme } from "@mui/material/styles";
 import { ThemeProvider } from "@emotion/react";
 import CssBaseline from "@mui/material/CssBaseline";
+import map from "../../assets/map.svg";
 
 export default function HomePage() {
     const HomePageTheme = createTheme({
@@ -12,18 +13,22 @@ export default function HomePage() {
             },
         },
     });
-    // TODO: Добавить название мира и аватар для мира
+
     return (
         <ThemeProvider theme={HomePageTheme}>
             <CssBaseline />
             <Container
                 //center container in the middle of the screen
+                // make it full screen
+                // make map.svg as background
 
                 sx={{
-                    m: "auto",
-                    mt: 10,
-                    width: "100vw",
-                    height: "100vh",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    mt: 8,
+                    background: `url(${map}) bottom center no-repeat`,
                 }}
             >
                 <Grid container spacing={50}>

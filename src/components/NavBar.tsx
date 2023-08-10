@@ -1,21 +1,21 @@
 import * as React from "react";
+
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from "@mui/icons-material/Menu";
+import Menu from "@mui/material/Menu";
 import Tooltip from "@mui/material/Tooltip";
-import MenuItem from "@mui/material/MenuItem";
-import { ListItem, Stack } from "@mui/material";
+import Button from "@mui/material/Button";
+import Avatar from "@mui/material/Avatar";
+import CircularProgressWithLabel from "./CircularProgressWithLabel";
+import { Stack } from "@mui/material";
 import AdbIcon from "@mui/icons-material/Adb";
 import { NavLink, useNavigate } from "react-router-dom";
-
-const settings = ["Профиль", "Настройки", "Выйти"];
+import { getUser, logout } from "../lib/api";
 
 export default function NavBar() {
     const navigate = useNavigate();
@@ -24,6 +24,18 @@ export default function NavBar() {
         ["Генератор заданий", "/task"],
         ["Активность", "/activity"],
     ];
+    const [userExperience, setUserExperience] = React.useState(0);
+    const [userCoins, setUserCoins] = React.useState(0);
+
+    // set UserExperience and UserCoins from server
+    React.useEffect(() => {
+        const user = getUser();
+
+        console.log(`data: ${user?.experience} ${user?.coins}`);
+
+        setUserExperience(user?.experience);
+        setUserCoins(user?.coins);
+    }, []);
 
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
         null,
@@ -153,6 +165,23 @@ export default function NavBar() {
                             })}
                         </Stack>
                     </Box>
+                    <Box sx={{ flexGrow: 1 }}>
+                        {/* logout button */}
+                        <Button
+                            variant="outlined"
+                            sx={{
+                                color: "inherit",
+                                borderColor: "inherit",
+                                textDecoration: "none",
+                            }}
+                            onClick={() => {
+                                logout();
+                                navigate("/auth");
+                            }}
+                        >
+                            Выйти
+                        </Button>
+                    </Box>
 
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
@@ -161,6 +190,12 @@ export default function NavBar() {
                                 src="/static/images/avatar/2.jpg"
                             />
                         </Tooltip>
+                    </Box>
+                    <Box sx={{ flexGrow: 0 }}>
+                        <Typography> {userCoins}</Typography>
+                    </Box>
+                    <Box sx={{ flexGrow: 0 }}>
+                        <CircularProgressWithLabel value={userExperience} />
                     </Box>
                 </Toolbar>
             </Container>

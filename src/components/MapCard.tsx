@@ -1,6 +1,8 @@
 import { Container, Paper, Typography, Stack, Avatar } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 interface MapCardProps {
+    redirect?: string;
     name: string;
     fill: string;
     opacity: number;
@@ -9,10 +11,18 @@ interface MapCardProps {
 }
 
 export default function MapCard(props: MapCardProps) {
+    // create redirect to map page on div click
+    const navigate = useNavigate();
+
     const { fill, opacity, name } = props;
 
     return (
-        <>
+        <div
+            className="mapCard"
+            onClick={() => {
+                navigate(props.redirect || "/activity");
+            }}
+        >
             <Paper
                 square
                 className="mapItem"
@@ -27,18 +37,7 @@ export default function MapCard(props: MapCardProps) {
                     borderLeft: "2px solid #FFFFF",
                 }}
             >
-                <Container
-                // sx={{
-                //     position: "absolute",
-                //     bottom: 0,
-                //     left: 0,
-                //     width: "100%",
-                //     height: "100%",
-                //     display: "flex",
-                //     alignItems: "center",
-                //     justifyContent: "center",
-                // }}
-                >
+                <Container>
                     <Stack
                         sx={{ mt: 2 }}
                         justifyContent={"center"}
@@ -59,7 +58,12 @@ export default function MapCard(props: MapCardProps) {
                             {name}
                         </Typography>
                         <Avatar
-                            sx={{ m: "auto", height: 100, width: 100, mt: 3 }}
+                            sx={{
+                                m: "auto",
+                                height: 100,
+                                width: 100,
+                                mt: 3,
+                            }}
                         >
                             <img
                                 src="https://i.imgur.com/7bIhC0d.png"
@@ -69,6 +73,6 @@ export default function MapCard(props: MapCardProps) {
                     </Stack>
                 </Container>
             </Paper>
-        </>
+        </div>
     );
 }

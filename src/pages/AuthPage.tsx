@@ -4,13 +4,14 @@ import SignInForm from "../components/SignInForm";
 import LandingPage from "../components/landingPage";
 import SignInUpSwitch from "../components/signInUpSwitch";
 import { useState, useEffect } from "react";
+// @ts-ignore
 import TelegramLoginButton from "react-telegram-login";
 import VkIcon from "../icons/vk";
 import TelegramIcon from "../icons/telegram";
 import { useTheme } from "@mui/material/styles";
-import { VkAuth } from "../lib/api";
+import { VkAuth, TgAuth, GoogleAuth } from "../lib/api";
 import { useNavigate } from "react-router-dom";
-import { register, checkAuth } from "../lib/api";
+import { checkAuth } from "../lib/api";
 
 export default function AuthPage() {
     const theme = useTheme();
@@ -37,11 +38,16 @@ export default function AuthPage() {
         window.location.replace(redirect_url);
     };
 
+    const handleGoogleAuth = async () => {
+        GoogleAuth();
+    };
+
     async function handleTelegramResponse(response: any) {
-        // TODO: создание пользователя через backend
-        register(response.username, "telegram", response.id);
-        navigate("/");
+        TgAuth(response);
         console.log(response);
+        if (response) {
+            navigate("/");
+        }
     }
 
     return (
@@ -83,7 +89,7 @@ export default function AuthPage() {
                                         fill={theme.palette.primary.main}
                                     />
                                 </IconButton>
-                                <IconButton>
+                                <IconButton onClick={handleGoogleAuth}>
                                     <TelegramIcon
                                         height={40}
                                         width={40}
