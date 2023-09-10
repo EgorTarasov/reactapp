@@ -1,5 +1,4 @@
-import { BorderBottom } from "@mui/icons-material";
-import { Typography, Button, Stack, Box } from "@mui/material";
+import { Button, Stack, Box } from "@mui/material";
 
 interface SwitchProps {
     isSignIn: boolean;
@@ -13,8 +12,8 @@ export default function SignInUpSwitch(props: SwitchProps) {
     return (
         <Box
             sx={{
-                marginTop: 8,
-                marginBottom: 1,
+                marginTop: 3,
+                marginBottom: 2,
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
@@ -25,14 +24,16 @@ export default function SignInUpSwitch(props: SwitchProps) {
                 spacing={2}
                 justifyContent="center"
                 alignItems="center"
+                maxWidth={300}
             >
                 <Button
                     variant="text"
                     size="small"
                     style={{
                         borderBottom: isSignIn
-                            ? "4px solid #605DE3"
-                            : "4px solid #fff",
+                            ? "2px solid #C059FF"
+                            : "2px solid #fff",
+                        color: isSignIn ? "#fff" : "#FFFFFF52",
                         borderRadius: 0,
                         width: 140,
                     }}
@@ -45,8 +46,9 @@ export default function SignInUpSwitch(props: SwitchProps) {
                     size="small"
                     style={{
                         borderBottom: isSignIn
-                            ? "4px solid #fff"
-                            : "4px solid #605DE3",
+                            ? "2px solid #fff"
+                            : "2px solid #605DE3",
+                        color: isSignIn ? "#FFFFFF52" : "#fff",
                         borderRadius: 0,
                         width: 140,
                     }}

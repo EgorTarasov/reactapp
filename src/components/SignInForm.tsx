@@ -8,23 +8,44 @@ import {
     TextField,
 } from "@mui/material";
 import { FormEvent, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { login } from "../lib/api";
+import { useLoginMutation } from "../features/user/authApiSlice";
+import { setCredentials } from "../features/user/authSlice";
 
 export default function SignInForm() {
-    // make same form as in SignUpForm.tsx with email and password
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
+    const [error, setError] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
+    const [login, { isLoading }] = useLoginMutation();
 
     async function handleLogin(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
         try {
-            await login(email, password);
+            const data = await login({
+                username: email,
+                password: password,
+            }).unwrap();
+
+            dispatch(
+                setCredentials({ accessToken: data.accessToken, user: null }),
+            );
             navigate("/");
-        } catch (e) {
-            console.log(e);
+        } catch (err: any) {
+            if (err.response) {
+                setError("Network error");
+            } else if (err.response.status === 400) {
+                setError("Invalid credentials");
+            } else if (err.response.status === 401) {
+                setError("Unauthorized");
+            } else {
+                setError("Login error");
+            }
+            console.log(error);
         }
     }
 
@@ -44,21 +65,25 @@ export default function SignInForm() {
                             <Grid container spacing={2}>
                                 <Grid item xs={12}>
                                     <TextField
-                                        required
+                                        // required
                                         fullWidth
                                         id="email"
-                                        label="Email"
+                                        label="Почта"
                                         name="email"
                                         autoComplete=""
                                         value={email}
                                         onChange={(e) =>
                                             setEmail(e.target.value)
                                         }
+                                        sx={{
+                                            background: "#F0F1F5",
+                                            borderRadius: 3,
+                                        }}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
                                     <TextField
-                                        required
+                                        // required
                                         fullWidth
                                         name="password"
                                         label="Пароль"
@@ -69,14 +94,30 @@ export default function SignInForm() {
                                         onChange={(e) =>
                                             setPassword(e.target.value)
                                         }
+                                        sx={{
+                                            background: "#F0F1F5",
+                                            borderRadius: 3,
+                                        }}
                                     />
+                                </Grid>
+
+                                <Grid item xs={12}>
+                                    <Box
+                                        sx={{
+                                            height: 56,
+                                        }}
+                                    ></Box>
                                 </Grid>
                             </Grid>
                             <Button
                                 type="submit"
                                 fullWidth
                                 variant="contained"
-                                sx={{ mt: 3, mb: 2 }}
+                                sx={{
+                                    mt: 3,
+                                    mb: 2,
+                                    background: "C059FF",
+                                }}
                             >
                                 Войти
                             </Button>

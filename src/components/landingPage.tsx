@@ -2,7 +2,6 @@ import { Box, Button } from "@mui/material";
 import { useRef } from "react";
 
 import LandingData from "../assets/LandingData.svg";
-import VideoJS from "../components/VideoJS";
 
 export default function LandingPage() {
     const videoJsOptions = {
@@ -17,22 +16,9 @@ export default function LandingPage() {
             },
         ],
     };
-    const handlePlayerReady = (player: any) => {
-        const playerRef = useRef(null);
-        playerRef.current = player;
 
-        // You can handle player events here, for example:
-        player.on("waiting", () => {
-            videojs.log("player is waiting");
-        });
-
-        player.on("dispose", () => {
-            videojs.log("player will dispose");
-        });
-    };
     return (
         <Box sx={{ width: 632, height: 532, m: 5 }}>
-            <VideoJS options={videoJsOptions} onReady={handlePlayerReady} />
             {/* <video
                 autoPlay
                 loop

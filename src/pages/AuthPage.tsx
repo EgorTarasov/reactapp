@@ -1,29 +1,34 @@
-import { Box, Stack, Card, Typography, IconButton } from "@mui/material";
+import { Box, Card, Stack, Typography, Paper } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
 import SignUpForm from "../components/SignUpForm";
 import SignInForm from "../components/SignInForm";
-import LandingPage from "../components/landingPage";
+
 import SignInUpSwitch from "../components/signInUpSwitch";
 import { useState, useEffect } from "react";
 // @ts-ignore
 import TelegramLoginButton from "react-telegram-login";
-import VkIcon from "../icons/vk";
-import TelegramIcon from "../icons/telegram";
-import { useTheme } from "@mui/material/styles";
-import { VkAuth, TgAuth, GoogleAuth } from "../lib/api";
+
 import { useNavigate } from "react-router-dom";
-import { checkAuth } from "../lib/api";
+import { useDispatch } from "react-redux";
+import { useGetCurrentUserMutation } from "../features/user/authApiSlice";
+import { setCredentials } from "../features/user/authSlice";
 
 export default function AuthPage() {
-    const theme = useTheme();
+    const [isSignIn, setIsSignIn] = useState<boolean>(true);
+
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const [getCurrentUser] = useGetCurrentUserMutation();
 
     useEffect(() => {
-        if (checkAuth()) {
+        // try to get token from local storage
+        const token: string | null = localStorage.getItem("token");
+        console.log(`token from local storage: ${token}`);
+        if (token != null) {
+            dispatch(setCredentials({ accessToken: token, user: null }));
             navigate("/");
         }
     }, []);
-
-    const [isSignIn, setIsSignIn] = useState<boolean>(true);
 
     const handleSignUpButton = () => {
         setIsSignIn(false);
@@ -33,79 +38,33 @@ export default function AuthPage() {
         setIsSignIn(true);
     };
 
-    const handleVkAuth = async () => {
-        const redirect_url = await VkAuth();
-        window.location.replace(redirect_url);
-    };
-
-    const handleGoogleAuth = async () => {
-        GoogleAuth();
-    };
-
-    async function handleTelegramResponse(response: any) {
-        TgAuth(response);
-        console.log(response);
-        if (response) {
-            navigate("/");
-        }
-    }
-
     return (
-        <>
-            <Box
+        <Box
+            sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                p: 20,
+
+                height: "100vh",
+                m: "auto",
+            }}
+        >
+            <Stack
+                direction="column"
                 sx={{
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    translate: "-50% -50%",
+                    background: "#ffffff1f",
+                    pr: 2,
+                    borderRadius: 3,
                 }}
             >
-                <Card sx={{ width: 1148, height: 551 }}>
-                    <Stack direction="row" spacing={3}>
-                        <Stack
-                            direction="column"
-                            alignContent={"center"}
-                            justifyItems={"center"}
-                        >
-                            <Typography variant="h1"> Лого</Typography>
-                            <SignInUpSwitch
-                                isSignIn={isSignIn}
-                                handleSignInButton={handleSignInButton}
-                                handleSignUpButton={handleSignUpButton}
-                            />
-                            {isSignIn ? <SignInForm /> : <SignUpForm />}
-                            <Stack
-                                direction="row"
-                                spacing={1}
-                                justifyItems={"center"}
-                            >
-                                <Typography variant="body1">
-                                    Или войдите через
-                                </Typography>
-                                <IconButton onClick={handleVkAuth}>
-                                    <VkIcon
-                                        height={40}
-                                        width={40}
-                                        fill={theme.palette.primary.main}
-                                    />
-                                </IconButton>
-                                <IconButton onClick={handleGoogleAuth}>
-                                    <TelegramIcon
-                                        height={40}
-                                        width={40}
-                                        fill={theme.palette.primary.main}
-                                    />
-                                </IconButton>
-                            </Stack>
-                            <TelegramLoginButton
-                                dataOnauth={handleTelegramResponse}
-                                botName="dorogoy_dnevnik_bot"
-                            />
-                        </Stack>
-                        <LandingPage />
-                    </Stack>
-                </Card>
-            </Box>
-        </>
+                <SignInUpSwitch
+                    isSignIn={isSignIn}
+                    handleSignInButton={handleSignInButton}
+                    handleSignUpButton={handleSignUpButton}
+                />
+                {isSignIn ? <SignInForm /> : <SignUpForm />}
+            </Stack>
+        </Box>
     );
 }
