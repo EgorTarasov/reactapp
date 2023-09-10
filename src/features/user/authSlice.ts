@@ -21,10 +21,13 @@ const authSlice = createSlice({
             // if (action.payload.accessToken === null) {
             //     return;
             // }
-            state.token = action.payload.accessToken;
+            // log state.token with description message
+            console.log("state.token: ", state.token);
+            if (action.payload.accessToken) {
+                state.token = action.payload.accessToken;
+                localStorage.setItem("token", state.token!);
+            }
             state.user = action.payload.user;
-
-            localStorage.setItem("token", state.token!);
         },
         setUser: (state: AuthState, action: PayloadAction<any>) => {
             state.user = action.payload;

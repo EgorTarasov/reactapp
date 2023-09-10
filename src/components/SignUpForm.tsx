@@ -42,14 +42,15 @@ export default function SignUpForm() {
                 };
                 console.log(signUpData);
                 const data = await register(signUpData).unwrap();
+                console.log(data);
 
                 dispatch(
                     setCredentials({
-                        accessToken: data.accessToken,
+                        accessToken: data.access_token,
                         user: null,
                     }),
                 );
-
+                // if token
                 navigate("/");
             } catch (err: any) {
                 if (err.response) {

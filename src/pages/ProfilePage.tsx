@@ -7,7 +7,7 @@ import BlockAchevements from "../components/BlockAchevements";
 function BlockDataList(props: { title: string; projects: string[] }) {
     return (
         <Grid container sx={{ mt: 3, ml: 3, mr: 4 }}>
-            <Grid item xs={12}>
+            <Grid item xs={6} lg={12}>
                 <Box
                     sx={{
                         minWidth: "800px",
@@ -69,8 +69,8 @@ export default function ProfilePage() {
     return (
         <Box sx={{ px: 10, pt: 5 }}>
             <RegisteredNavBar selectedTab="Мой профиль" />
-            <Grid container sx={{ mt: 3, ml: 3, mr: 4 }}>
-                <Grid item xs={4}>
+            <Grid flexWrap={"wrap"} container sx={{ mt: 3, ml: 3, mr: 4 }}>
+                <Grid item xs={4} lg={5}>
                     {/* block profile  */}
                     <Box
                         sx={{
@@ -163,13 +163,13 @@ export default function ProfilePage() {
                         </Button>
                     </Box>
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={4} lg={5}>
                     {/* block it */}
                     {/* It skills */}
                     <ItSkillBlock />
                     {/* It skills */}
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={4} lg={2}>
                     <BlockAchevements />
                 </Grid>
             </Grid>
