@@ -1,12 +1,5 @@
-import {
-    Box,
-    Grid,
-    Autocomplete,
-    TextField,
-    Button,
-    Stack,
-} from "@mui/material";
-import { useState } from "react";
+import { Box, Grid, Autocomplete, TextField, Button, Stack } from '@mui/material';
+import { useState } from 'react';
 
 export default function ItSkillBlock() {
     // get tags from endpoint
@@ -15,42 +8,39 @@ export default function ItSkillBlock() {
     const [tags, setTags] = useState([]);
 
     const avaliableTags = [
-        "Figma",
-        "Adobe XD",
-        "Adobe Photoshop",
-        "Python",
-        "Java/Kotlin",
-        "Product Management",
-        "backend",
-        "frontend",
-        "fullstack",
-        "IOS",
-        "Android",
-        "Flutter",
-        "React",
-        "TypeScript",
-        "Svelte",
-        "Vue",
-        "Angular",
+        'Figma',
+        'Adobe XD',
+        'Adobe Photoshop',
+        'Python',
+        'Java/Kotlin',
+        'Product Management',
+        'backend',
+        'frontend',
+        'fullstack',
+        'IOS',
+        'Android',
+        'Flutter',
+        'React',
+        'TypeScript',
+        'Svelte',
+        'Vue',
+        'Angular',
     ];
     return (
         <Box
             sx={{
                 padding: 2,
-                backgroundColor: "#ffffff14",
-                minWidth: "300px",
-                minHeight: "375px",
-                textAlign: "left",
-                maxWidth: "550px",
+                backgroundColor: '#ffffff14',
+                textAlign: 'left',
                 borderRadius: 4,
             }}
         >
             {/* add bottom border to h2 */}
             <p
                 style={{
-                    paddingBottom: "5px",
-                    fontWeight: "700",
-                    color: "#FFF",
+                    paddingBottom: '5px',
+                    fontWeight: '700',
+                    color: '#FFF',
                 }}
             >
                 ИТ-Компетенции
@@ -58,20 +48,20 @@ export default function ItSkillBlock() {
             <Grid container sx={{}}>
                 <Autocomplete
                     disablePortal
-                    id="combo-box-demo"
+                    id='combo-box-demo'
                     options={avaliableTags}
-                    sx={{ width: 200, color: "#FFF", height: "30px" }}
+                    sx={{ width: 200, color: '#FFF', height: '30px' }}
                     renderInput={(params) => (
-                        <Stack direction="row">
+                        <Stack direction='row'>
                             <TextField
                                 sx={{
-                                    backgroundColor: "#ffffff14",
-                                    color: "#FFF",
+                                    backgroundColor: '#ffffff14',
+                                    color: '#FFF',
                                     borderRadius: 4,
                                 }}
                                 {...params}
                                 onKeyPress={(event) => {
-                                    if (event.key === "Enter") {
+                                    if (event.key === 'Enter') {
                                         // add tag to tags
                                         // check if tag is already in tags
                                         // limit amount of tags to 8
@@ -79,10 +69,10 @@ export default function ItSkillBlock() {
                                         if (
                                             tags.includes(
                                                 // @ts-ignore
-                                                params.inputProps.value,
+                                                params.inputProps.value
                                             )
                                         ) {
-                                            console.log("already in tags");
+                                            console.log('already in tags');
                                             return;
                                         }
 
@@ -94,10 +84,10 @@ export default function ItSkillBlock() {
                                         ]);
                                         console.log(tags);
                                         // clear input
-                                        params.inputProps.value = "";
+                                        params.inputProps.value = '';
                                     }
                                 }}
-                                label="Выберите компетенции"
+                                label='Выберите компетенции'
                             />
                         </Stack>
                     )}
@@ -109,23 +99,23 @@ export default function ItSkillBlock() {
                             <Grid item xs={3}>
                                 <Box
                                     sx={{
-                                        textAlign: "center",
-                                        backgroundColor: "#C059FF1F",
-                                        border: "1px solid #C059FF",
+                                        textAlign: 'center',
+                                        backgroundColor: '#C059FF1F',
+                                        border: '1px solid #C059FF',
                                         borderRadius: 4,
                                         padding: 1,
                                         my: 1,
                                     }}
                                 >
                                     <Stack
-                                        direction="row"
-                                        alignContent={"center"}
-                                        justifyContent={"center"}   
+                                        direction='row'
+                                        alignContent={'center'}
+                                        justifyContent={'center'}
                                     >
                                         {/* make even spacing inside stack */}
                                         <p
                                             style={{
-                                                color: "#FFFFFF",
+                                                color: '#FFFFFF',
                                                 fontSize: `14px`,
                                             }}
                                         >
@@ -134,19 +124,15 @@ export default function ItSkillBlock() {
                                         {/* add button to delete tag */}
                                         <Button
                                             sx={{
-                                                color: "#FFFFFFA3",
+                                                color: '#FFFFFFA3',
                                                 fontSize: `10px`,
-                                                fontFamily: "Roboto",
+                                                fontFamily: 'Roboto',
                                                 padding: 0,
                                                 ml: 2,
                                                 minWidth: 0,
                                             }}
                                             onClick={() => {
-                                                setTags(
-                                                    tags.filter(
-                                                        (item) => item !== tag,
-                                                    ),
-                                                );
+                                                setTags(tags.filter((item) => item !== tag));
                                             }}
                                         >
                                             x
