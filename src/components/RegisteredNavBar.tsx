@@ -18,7 +18,7 @@ export default function RegisteredNavBar() {
         },
         {
             name: "Моя команда",
-            path: ["/recommendations", "/add_hack"],
+            path: ["/recommendations", "/add_hack", "/teams"],
         },
 
         {

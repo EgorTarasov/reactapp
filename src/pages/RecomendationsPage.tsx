@@ -1,23 +1,11 @@
-import { Box, Button, Grid, Stack, TextField } from "@mui/material";
+import { Box, Button, Grid, Stack } from "@mui/material";
 import RegisteredNavBar from "../components/RegisteredNavBar";
 import { UserRole } from "../features/user/authSlice";
 import { useEffect, useState } from "react";
+import IndexHackCard from "../components/IndexHackCard";
 import axios from "axios";
-
-// interface HackEnrollmentCard {
-//     hackName: string;
-//     teamName: string;
-// }
-
-type ApiResponse = {
-    id: number;
-    leader_id: number;
-    required_roles: UserRole[];
-    hackathon_id: number;
-    title: string;
-    description: string;
-    required_members: number;
-};
+import { Hackathon, ApiResponse } from "../types";
+import API_HOST from "../app/api/api.ts";
 
 function HackEnrollmentCard(props: { hack: ApiResponse }) {
     const members = [
@@ -165,6 +153,7 @@ function HackEnrollmentCard(props: { hack: ApiResponse }) {
 
 export default function RecomendationsPage() {
     const [myHacks, setMyhacks] = useState<ApiResponse[]>([]);
+    const [currentHacks, setCurrentHacks] = useState<Hackathon[]>([]);
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -174,14 +163,21 @@ export default function RecomendationsPage() {
             },
         };
         axios
-            .get("http://127.0.0.1:9999/api/v1/hackathons/teams/my", config)
+            .get(API_HOST + "/api/v1/hackathons/teams/my", config)
             .then((response) => {
                 console.log(response.data);
                 setMyhacks([response.data, response.data, response.data]);
             });
+        axios
+            .get(API_HOST + "/api/v1/hackathons/upcoming", config)
+            .then((response) => {
+                console.log(response.data);
+                setCurrentHacks(response.data);
+            });
     }, []);
 
     useEffect(() => {}, [myHacks]);
+    useEffect(() => {}, [currentHacks]);
 
     return (
         <>
@@ -203,6 +199,28 @@ export default function RecomendationsPage() {
                             return (
                                 <Grid item xs={12} lg={3}>
                                     <HackEnrollmentCard hack={hack} />
+                                </Grid>
+                            );
+                        })}
+                    </Grid>
+                )}
+                <h1
+                    style={{
+                        fontSize: "32px",
+                        fontWeight: "500",
+                        color: "#ffffff",
+                        textAlign: "left",
+                    }}
+                >
+                    Сейчас набирают команды для участия в этих хакатонах:
+                </h1>
+                {currentHacks.length > 0 && (
+                    <Grid container spacing={4} lg={12}>
+                        {currentHacks.map((hack, i) => {
+                            console.log(i, hack);
+                            return (
+                                <Grid item xs={12} lg={3}>
+                                    <IndexHackCard hack={hack} findTeam />
                                 </Grid>
                             );
                         })}

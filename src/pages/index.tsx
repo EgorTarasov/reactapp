@@ -3,13 +3,18 @@ import Carousel from "../components/carousel";
 import { Link } from "react-router-dom";
 import IndexHackCard from "../components/IndexHackCard";
 import { selectCurrentToken, setCredentials } from "../features/user/authSlice";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import API_HOST from "../app/api/api";
+import axios from "axios";
+import { Hackathon } from "../types";
 
 export default function IndexPage() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
+    const [hacks, setHacks] = useState<Hackathon[]>([]);
 
     useEffect(() => {
         const token: string | null = localStorage.getItem("token");
@@ -20,31 +25,31 @@ export default function IndexPage() {
         }
     }, []);
 
-    const hacks = [
-        {
-            title: "Кокос Hackathon 2023",
-            registration_start: "2023-09-09T13:29:37.176980",
-            registration_finish: "2023-09-10T13:29:37.176999",
-            team_minimum_size: 1,
-            team_maximum_size: 5,
-            prize_type: 0,
-            money_prize: 1000000,
-            start_date: "2023-09-11T13:29:37.177062",
-            end_date: "2023-09-12T13:29:37.177074",
-            description: "Описание хакатона",
-            is_offline: true,
-            place: "Москва",
-            image: "http://localhost:9999/static/image.png",
-            tags: [
-                {
-                    tag: "Веб-разработка",
-                },
-                {
-                    tag: "Мобильная разработка",
-                },
-            ],
-        },
-    ];
+    // const hacks = [
+    //     {
+    //         title: "Кокос Hackathon 2023",
+    //         registration_start: "2023-09-09T13:29:37.176980",
+    //         registration_finish: "2023-09-10T13:29:37.176999",
+    //         team_minimum_size: 1,
+    //         team_maximum_size: 5,
+    //         prize_type: 0,
+    //         money_prize: 1000000,
+    //         start_date: "2023-09-11T13:29:37.177062",
+    //         end_date: "2023-09-12T13:29:37.177074",
+    //         description: "Описание хакатона",
+    //         is_offline: true,
+    //         place: "Москва",
+    //         image: "http://localhost:9999/static/image.png",
+    //         tags: [
+    //             {
+    //                 tag: "Веб-разработка",
+    //             },
+    //             {
+    //                 tag: "Мобильная разработка",
+    //             },
+    //         ],
+    //     },
+    // ];
 
     return (
         <>
@@ -53,7 +58,7 @@ export default function IndexPage() {
             </div>
             <div className="index-hero"></div>
             <h1 className="index-hero-text">
-                Стань частью хакатон клуба «Университета МИСИС»
+                Стань частью Хакатон-клуба Университета МИСИС
             </h1>
             <div className="index-auth-buttons">
                 <Link to={"/auth"}>

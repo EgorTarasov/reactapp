@@ -1,34 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-export type UserSkill = {
-    id: number;
-    skill_name: string;
-};
-
-export type UserGoal = {
-    id: number;
-    goal_name: string;
-};
-
-export type UserRole = {
-    id: number;
-    role_name: string;
-};
-
-export type User = {
-    id: number;
-    email: string;
-    first_name: string;
-    last_name: string;
-    internal_role: string;
-    level: number;
-    tg_username: string;
-    graduation_year: string;
-    image_url: string;
-    skills: UserSkill[];
-    roles: UserRole[];
-    goals: UserGoal[];
-};
+import { User } from "../../types";
 
 type AuthState = {
     token: string | null;

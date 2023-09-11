@@ -9,6 +9,7 @@ import { UserGoal, UserRole, setUser } from "../features/user/authSlice";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import axios from "axios";
+import API_HOST from "../app/api/api.ts";
 
 export default function SignUpSurveyPage() {
     // const avaliableRoles = [
@@ -21,18 +22,21 @@ export default function SignUpSurveyPage() {
     //     "Мобильный разработчик",
     //     "Бизнес-аналитик",
     // ];
-    const avaliableMotivations = [
-        "Встретить единомышленников",
-        "Научиться новому",
-        "Пополнить портфолио",
-        "Обрести полезные связи",
-        "Стать увереннее в себе",
-        "Развить мягкие навыки",
-        "Развлечься",
-    ];
+    // const avaliableMotivations = [
+    //     "Встретить единомышленников",
+    //     "Научиться новому",
+    //     "Пополнить портфолио",
+    //     "Обрести полезные связи",
+    //     "Стать увереннее в себе",
+    //     "Развить мягкие навыки",
+    //     "Развлечься",
+    // ];
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [avaliableRoles, setAvaliableRoles] = useState<UserRole[]>([]);
+    const [avaliableMotivations, setAvaliableMotivations] = useState<
+        UserGoal[]
+    >([]);
     const [getAvaliableRoles] = useGetAvaliableRolesMutation();
     const [postSurvey] = usePostSurveyMutation();
     const [getUser] = useGetCurrentUserMutation();
@@ -49,9 +53,14 @@ export default function SignUpSurveyPage() {
             setAvaliableRoles(data);
         }
         async function getGoals() {
-            axios.get("/api/1v/tags/goals").then((response) => {});
+            axios.get(API_HOST + "/api/v1/tags/goals").then((response) => {
+                // @ts-ignore
+                const data: UserGoal = response;
+                console.log(data);
+                setAvaliableMotivations(response.data);
+            });
         }
-
+        getGoals();
         getRoles();
         console.log(avaliableRoles);
     }, []);
@@ -59,20 +68,20 @@ export default function SignUpSurveyPage() {
     function handleSurveySubmit() {
         console.log(selectedMotivations);
         console.log(selectedRoles);
-        const roles = selectedRoles.map((role) => {
-            return { role_name: role };
-        });
-        const goals = selectedMotivations.map((goal) => {
-            return { goal_name: goal };
-        });
+        // const roles = selectedRoles.map((role) => {
+        //     return { role_name: role };
+        // });
+        // const goals = selectedMotivations.map((goal) => {
+        //     return { goal_name: goal };
+        // });
         console.log({
-            roles: roles,
-            goals: goals,
+            roles: selectedRoles,
+            goals: selectedMotivations,
             tg_username: telegram,
         });
         const data = postSurvey({
-            roles: roles,
-            goals: goals,
+            roles: selectedRoles,
+            goals: selectedMotivations,
             tg_username: telegram,
         }).unwrap();
         console.log(data);
@@ -226,7 +235,7 @@ export default function SignUpSurveyPage() {
                                             fontSize: "14px",
                                         }}
                                     >
-                                        {motivation}
+                                        {motivation.goal_name}
                                     </Button>
                                 </Grid>
                             ))}

@@ -1,7 +1,8 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import API_HOST from "./api";
 
 const baseQuery = fetchBaseQuery({
-    baseUrl: "http://localhost:9999",
+    baseUrl: API_HOST,
     // add type to getState from redux store
     prepareHeaders: (headers, { getState }) => {
         // @ts-ignore

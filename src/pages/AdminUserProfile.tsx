@@ -5,7 +5,7 @@ import { Button } from "@mui/material";
 import DataBox from "../components/DataBox";
 import ItSkillBlock from "../components/ItSkillBlock";
 import BlockAchevements from "../components/BlockAchevements";
-import { User } from "../features/user/authSlice";
+import { User } from "../types";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { AreaChart, Area, XAxis, Tooltip } from "recharts";

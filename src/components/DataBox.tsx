@@ -8,8 +8,8 @@ export default function DataBox(props: { text: string; fontSize: number }) {
                 backgroundColor: "#C059FF1F",
                 border: "1px solid #C059FF",
                 borderRadius: 4,
-                padding: 1,
-                my: 1,
+                p: 1,
+                maxWidth: "240px",
             }}
         >
             <p

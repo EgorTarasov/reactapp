@@ -12,15 +12,10 @@ import ItSkillBlock from "../components/ItSkillBlock";
 import BlockAchevements from "../components/BlockAchevements";
 
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-    useGetCurrentUserMutation,
-    usePostCurrentUserMutation,
-    useGetAvaliableRolesMutation,
-} from "../features/user/authApiSlice";
-import { setUser, selectCurrentUser, User } from "../features/user/authSlice";
-import { UserRole } from "../features/user/authSlice";
+
 import axios from "axios";
+import API_HOST from "../app/api/api";
+import { User, UserRole } from "../types";
 
 function BlockDataList(props: { title: string; projects: string[] }) {
     return (
@@ -60,55 +55,76 @@ function BlockDataList(props: { title: string; projects: string[] }) {
 }
 
 export function UserCard() {
-    const dispatch = useDispatch();
-    const reduxUser = useSelector(selectCurrentUser);
-    const [postUser, { isLoading: isPostLoading }] =
-        usePostCurrentUserMutation();
-    const [getAvaliableRoles] = useGetAvaliableRolesMutation();
-    const [getUser, { isLoading }] = useGetCurrentUserMutation();
+    // const dispatch = useDispatch();
+    // const reduxUser = useSelector(selectCurrentUser);
+    // const [postUser, { isLoading: isPostLoading }] =
+    //     usePostCurrentUserMutation();
+    // const [getAvaliableRoles] = useGetAvaliableRolesMutation();
+    // const [getUser, { isLoading }] = useGetCurrentUserMutation();
 
     const [pageUser, setPageUser] = useState<User | null>(null);
     const [editing, setEditing] = useState(false);
     const [telegramText, setTelegramText] = useState<string>("");
     const [roleText, setRoleText] = useState<string>("");
 
-    const [avaliableRoles, setAvaliableRoles] = useState<string[]>([]);
+    const [avaliableRoles, setAvaliableRoles] = useState<UserRole[]>([]);
 
     useEffect(() => {
-        async function getRoles() {
-            const data = await getAvaliableRoles({}).unwrap();
-            setAvaliableRoles(data);
-        }
-        getRoles();
-        console.log(reduxUser);
-        if (reduxUser) {
-            console.log(reduxUser);
-            setPageUser(reduxUser);
-        } else {
-            async function getUserData() {
-                const data = await getUser({}).unwrap();
-                dispatch(setUser(data));
-                console.log(data);
-                setPageUser(data);
-            }
-            getUserData();
-        }
+        const config = {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+        };
+        axios
+            .get(API_HOST + "/api/v1/users/profile/me", config)
+            .then((response) => {
+                console.log(response.data);
+                setPageUser(response.data);
+            });
+
+        // async function getRoles() {
+        //     const data = await getAvaliableRoles({}).unwrap();
+        //     setAvaliableRoles(data);
+        // }
+        // getRoles();
+        // console.log(reduxUser);
+        // if (reduxUser) {
+        //     console.log(reduxUser);
+        //     setPageUser(reduxUser);
+        // } else {
+        //     async function getUserData() {
+        //         const data = await getUser({}).unwrap();
+        //         dispatch(setUser(data));
+        //         console.log(data);
+        //         setPageUser(data);
+        //     }
+        //     getUserData();
+        // }
     }, []);
 
-    // useEffect(() => {
-    //     setTelegramText(pageUser?.tg_username!);
-    //     if (pageUser!.roles.length > 0) {
-    //         setRoleText(pageUser?.roles[0].role_name!);
-    //     }
-    // }, [pageUser]);
+    useEffect(() => {
+        setTelegramText(pageUser?.tg_username!);
+        if (pageUser) {
+            if (pageUser!.roles.length > 0) {
+                setRoleText(pageUser?.roles[0].role_name);
+            }
+        }
+    }, [pageUser]);
 
     // use useEffect to update user
+    //FIXME
     useEffect(() => {
         if (pageUser) {
-            async function updateUser() {
-                await postUser(pageUser!).unwrap();
-            }
-            updateUser();
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+            };
+            axios
+                .post(API_HOST + "/api/v1/users/update", config)
+                .then((response) => {
+                    console.log(response);
+                });
         }
     }, [pageUser]);
 
@@ -151,7 +167,11 @@ export function UserCard() {
                                         width: "100%",
                                         height: "100%",
                                     }}
-                                    src="/images/lisa.png"
+                                    src={
+                                        pageUser.image_url
+                                            ? pageUser.image_url
+                                            : "/images/lisa.png"
+                                    }
                                     alt=""
                                 />
                             </Grid>
