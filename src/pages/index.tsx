@@ -2,8 +2,24 @@ import NavBar from "../components/NavBar";
 import Carousel from "../components/carousel";
 import { Link } from "react-router-dom";
 import IndexHackCard from "../components/IndexHackCard";
+import { selectCurrentToken, setCredentials } from "../features/user/authSlice";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 export default function IndexPage() {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        const token: string | null = localStorage.getItem("token");
+        console.log(`token from local storage: ${token}`);
+        if (token != null) {
+            dispatch(setCredentials({ accessToken: token, user: null }));
+            navigate("/me");
+        }
+    }, []);
+
     const hacks = [
         {
             title: "Кокос Hackathon 2023",

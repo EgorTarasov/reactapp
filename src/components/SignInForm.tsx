@@ -10,13 +10,17 @@ import {
 import { FormEvent, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { useLoginMutation } from "../features/user/authApiSlice";
-import { setCredentials } from "../features/user/authSlice";
+import {
+    useLoginMutation,
+    useGetCurrentUserMutation,
+} from "../features/user/authApiSlice";
+import { setCredentials, setUser } from "../features/user/authSlice";
 
 export default function SignInForm() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
+    const [getUser] = useGetCurrentUserMutation();
     const [error, setError] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -30,11 +34,18 @@ export default function SignInForm() {
                 username: email,
                 password: password,
             }).unwrap();
+            // save token to local storage
+            localStorage.setItem("token", data.access_token);
+            const user = await getUser({}).unwrap();
 
             dispatch(
-                setCredentials({ accessToken: data.accessToken, user: null }),
+                setCredentials({
+                    accessToken: data.access_token,
+                    user: user,
+                }),
             );
-            navigate("/");
+
+            navigate("/me");
         } catch (err: any) {
             if (err.response) {
                 setError("Network error");

@@ -1,4 +1,5 @@
 import { apiSlice } from "../../app/api/apiSlice";
+import { User } from "./authSlice";
 
 export const authApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
@@ -25,17 +26,45 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 },
             }),
         }),
+        postSurvey: builder.mutation({
+            query: ({ roles, goals, tg_username }) => ({
+                url: "/api/v1/users/survey",
+                method: "POST",
+                body: {
+                    roles: roles,
+                    goals: goals,
+                    tg_username: tg_username,
+                },
+            }),
+        }),
         getCurrentUser: builder.mutation({
             query: () => ({
-                url: "/api/v1/users/me",
+                url: "/api/v1/users/profile/me",
+                method: "GET",
+            }),
+        }),
+        postCurrentUser: builder.mutation({
+            query: (user: User) => ({
+                url: "/api/v1/users/update",
+                method: "POST",
+                body: user,
+            }),
+        }),
+        getAvaliableRoles: builder.mutation({
+            query: () => ({
+                url: "/api/v1/tags/roles",
                 method: "GET",
             }),
         }),
     }),
 });
+// /api/v1/tags/roles
 
 export const {
     useLoginMutation,
     useRegisterMutation,
     useGetCurrentUserMutation,
+    usePostSurveyMutation,
+    usePostCurrentUserMutation,
+    useGetAvaliableRolesMutation,
 } = authApiSlice;

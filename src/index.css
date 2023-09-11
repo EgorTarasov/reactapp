@@ -72,6 +72,36 @@ a {
     background: #1e1d1c;
 }
 
+.frame-851212522 {
+    width: 1440px;
+    height: 1442px;
+    overflow: hidden;
+    background: #1e1d1c;
+}
+.rectangle-193 {
+    width: 130.963px;
+    height: 130.926px;
+    transform: rotate(29.306deg);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.36);
+}
+.rectangle-194 {
+    width: 74.54px;
+    height: 74.505px;
+    transform: rotate(-166.274deg);
+    border-radius: 16px;
+    border: 0.829px solid rgba(255, 255, 255, 0.36);
+    flex-shrink: 0;
+}
+.rectangle-192 {
+    width: 74.54px;
+    height: 74.505px;
+    transform: rotate(-166.274deg);
+    border-radius: 16px;
+    border: 0.829px solid rgba(255, 255, 255, 0.36);
+    flex-shrink: 0;
+}
+
 .index-hero {
     /* Rectangle 192 */
 
@@ -164,4 +194,3 @@ a {
 .index-carousel-card {
     width: 412px;
 }
-

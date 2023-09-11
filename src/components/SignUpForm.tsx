@@ -51,7 +51,7 @@ export default function SignUpForm() {
                     }),
                 );
                 // if token
-                navigate("/");
+                navigate("/survey");
             } catch (err: any) {
                 if (err.response) {
                     console.log(err.response);

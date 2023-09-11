@@ -45,7 +45,6 @@ export default function AuthPage() {
                 justifyContent: "center",
                 alignItems: "center",
                 p: 20,
-
                 height: "100vh",
                 m: "auto",
             }}
